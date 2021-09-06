@@ -1,5 +1,7 @@
 package com.hypernova.meditationui.ui
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Icon
@@ -11,24 +13,24 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import com.hypernova.meditationui.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hypernova.meditationui.BottomMenuContent
-import com.hypernova.meditationui.Feature
-import com.hypernova.meditationui.standardQuadFromTo
+import com.hypernova.meditationui.*
+import com.hypernova.meditationui.R
 import com.hypernova.meditationui.ui.theme.*
 
 @ExperimentalFoundationApi
@@ -85,6 +87,13 @@ fun HomeScreen() {
                     LightGreen1,
                     LightGreen2,
                     LightGreen3
+                ),
+                Feature(
+                    title = "Day island",
+                    R.drawable.ic_bubble,
+                    OrangeYellow1,
+                    OrangeYellow2,
+                    OrangeYellow3
                 )
             )
             )
@@ -183,22 +192,21 @@ fun CurrentMeditation(color: Color) {
                  color = TextWhite
              )
          }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(ButtonBlue)
-                .padding(15.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_play),
-                contentDescription = "Play",
-                tint = Color.White,
-                modifier = Modifier.size(16.dp)
-            )
-
-        }
+         Box(
+             contentAlignment = Alignment.Center,
+             modifier = Modifier
+                 .size(40.dp)
+                 .clip(CircleShape)
+                 .background(ButtonBlue)
+                 .padding(15.dp)
+         ) {
+             Icon(
+                 painter = painterResource(id = R.drawable.ic_play),
+                 contentDescription = "Play",
+                 tint = Color.White,
+                 modifier = Modifier.size(16.dp)
+             )
+         }
      }
 }
 
@@ -227,6 +235,10 @@ fun FeaturedSection(feature: List<Feature>) {
 
 @Composable
 fun FeatureItem(feature: Feature) {
+    val context = LocalContext.current
+    var navigate by remember {
+        mutableStateOf(false)
+    }
     BoxWithConstraints(modifier = Modifier
         .padding(7.5.dp)
         .aspectRatio(1f)
@@ -307,17 +319,17 @@ fun FeatureItem(feature: Feature) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .clickable {}
+                    .clickable {
+                        navigate = true
+                    }
                     .align(Alignment.BottomEnd)
                     .clip(RoundedCornerShape(10.dp))
                     .background(ButtonBlue)
                     .padding(vertical = 6.dp, horizontal = 15.dp)
             )
         }
-
-
-
     }
+    if (navigate) context.startActivity(Intent(context, Animation::class.java))
 }
 
 @Composable
