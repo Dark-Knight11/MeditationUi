@@ -214,7 +214,7 @@ fun FeaturedSection(feature: List<Feature>) {
         )
         LazyVerticalGrid(
             cells = GridCells.Fixed(2),
-            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp),
+            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
             items(feature.size) {
